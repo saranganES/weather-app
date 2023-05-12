@@ -36,7 +36,7 @@ export const getWeekForecastWeather = (response) => {
   let foreacast_data = [];
   let descriptions_data = [];
 
-  if (!response || Object.keys(response).length === 0 || response.cod === "404")
+  if (!response || Object.keys(response).length === 0 || response.cod === '404')
     return [];
   else
     response?.list.slice().map((item, idx) => {
@@ -55,7 +55,7 @@ export const getWeekForecastWeather = (response) => {
       return { idx, item };
     });
 
-  const groupByDate = groupBy("date");
+  const groupByDate = groupBy('date');
   let grouped_forecast_data = groupByDate(foreacast_data);
   let grouped_forecast_descriptions = groupByDate(descriptions_data);
 
@@ -107,16 +107,16 @@ export const getTodayForecastWeather = (
 ) => {
   let all_today_forecasts = [];
 
-  if (!response || Object.keys(response).length === 0 || response.cod === "404")
+  if (!response || Object.keys(response).length === 0 || response.cod === '404')
     return [];
   else
     response?.list.slice().map((item) => {
       if (item.dt_txt.startsWith(current_date.substring(0, 10))) {
         if (item.dt > current_datetime) {
           all_today_forecasts.push({
-            time: item.dt_txt.split(" ")[1].substring(0, 5),
+            time: item.dt_txt.split(' ')[1].substring(0, 5),
             icon: item.weather[0].icon,
-            temperature: Math.round(item.main.temp) + " °C",
+            temperature: Math.round(item.main.temp) + ' °C',
           });
         }
       }
@@ -127,42 +127,5 @@ export const getTodayForecastWeather = (
     return [...all_today_forecasts];
   } else {
     return all_today_forecasts.slice(-6);
-  }
-};
-
-export const iconManage = (temp, icon) => {
-  if (
-    (temp > 30 && temp < 35) ||
-    icon == "01d" ||
-    icon == "01n" ||
-    icon == "02d" ||
-    icon == "02n" ||
-    icon == "03d" ||
-    icon == "03n" ||
-    icon == "04d" ||
-    icon == "04n"
-  ) {
-    return "cloud-sun";
-  } else if (
-    (temp < 30 && temp > 25) ||
-    icon == "11d" ||
-    icon == "11n" ||
-    icon == "10n" ||
-    icon == "10d" ||
-    icon == "09n" ||
-    icon == "09d"
-  ) {
-    return "cloud-rain";
-  } else if (
-    (temp < 25 && temp > 0) ||
-    icon == "13d" ||
-    icon == "13n" ||
-    icon == "50d" ||
-    icon == "50n" ||
-    icon == "unknown"
-  ) {
-    return "cloud-snow";
-  } else {
-    return "cloud";
   }
 };
