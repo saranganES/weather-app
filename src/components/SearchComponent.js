@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { AsyncPaginate } from "react-select-async-paginate";
-import { fetchCities } from "../api/ApiServices";
+import React, { useState } from 'react';
+import { AsyncPaginate } from 'react-select-async-paginate';
+import { fetchCities } from '../api/ApiServices';
 
 const SearchComponent = ({ onSearchChange }) => {
   const [searchValue, setSearchValue] = useState(null);
@@ -8,7 +8,11 @@ const SearchComponent = ({ onSearchChange }) => {
   const loadOptions = async (inputValue) => {
     try {
       const citiesList = await fetchCities(inputValue);
-      console.log("citiesList", citiesList)
+      if (citiesList.message) {
+        return {
+          options: [],
+        };
+      }
       return {
         options: citiesList?.data.map((city) => {
           return {
@@ -28,7 +32,7 @@ const SearchComponent = ({ onSearchChange }) => {
   };
   return (
     <AsyncPaginate
-      placeholder="Search for cities"
+      placeholder='Search for cities'
       debounceTimeout={600}
       value={searchValue}
       onChange={onChangeHandler}
